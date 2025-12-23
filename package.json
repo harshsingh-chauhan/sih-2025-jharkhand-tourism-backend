@@ -1,6 +1,6 @@
 {
 	"name": "sih-2025-jharkhand-tourism-backend",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "RESTful API backend for Jharkhand Tourism (JharkhandYatra)",
 	"main": "dist/server.js",
 	"scripts": {
