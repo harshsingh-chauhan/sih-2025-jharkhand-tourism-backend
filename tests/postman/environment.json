@@ -1,0 +1,47 @@
+{
+	"id": "jharkhand-tourism-dev",
+	"name": "JharkhandYatra Development",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:2201/api/v1",
+			"enabled": true
+		},
+		{
+			"key": "expressBackendURL",
+			"value": "http://localhost:2201/api/v1",
+			"enabled": true
+		},
+		{
+			"key": "mockServerURL",
+			"value": "http://localhost:2201",
+			"enabled": true
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "testHomestayId",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "testGuideId",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "testProductId",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "testBookingId",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment"
+}

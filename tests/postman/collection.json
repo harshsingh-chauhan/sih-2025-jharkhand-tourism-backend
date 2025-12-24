@@ -1,0 +1,428 @@
+{
+    "info": {
+        "_postman_id": "007116c2-3670-4c26-9313-73fb0d02a4b6",
+        "name": "JharkhandYatra API v1 - CRUD (No Auth)",
+        "description": "API collection for JharkhandYatra backend with versioned endpoints (/api/v1)",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Health Check",
+            "item": [
+                {
+                    "name": "Server Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/health",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["health"]
+                        },
+                        "description": "Check if server is running"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Homestays",
+            "item": [
+                {
+                    "name": "Get All Homestays",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/homestays",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["homestays"],
+                            "query": [
+                                { "key": "page", "value": "1", "disabled": true },
+                                { "key": "limit", "value": "10", "disabled": true },
+                                { "key": "district", "value": "Ranchi", "disabled": true },
+                                { "key": "minPrice", "value": "500", "disabled": true },
+                                { "key": "maxPrice", "value": "3000", "disabled": true }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Homestay by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/homestays/{{testHomestayId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["homestays", "{{testHomestayId}}"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Homestay",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.environment.set('testHomestayId', jsonData.data._id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Patratu Lake View Villa\",\n  \"description\": \"Beautiful villa overlooking Patratu Lake with modern amenities and stunning water views\",\n  \"propertyType\": \"entire\",\n  \"location\": {\n    \"address\": \"Patratu Dam Road, Near Viewpoint\",\n    \"district\": \"Ramgarh\",\n    \"state\": \"Jharkhand\",\n    \"coordinates\": {\n      \"lat\": 23.6693,\n      \"lng\": 85.1376\n    }\n  },\n  \"pricing\": {\n    \"basePrice\": 3500,\n    \"cleaningFee\": 400,\n    \"weekendPrice\": 4000\n  },\n  \"capacity\": {\n    \"guests\": 6,\n    \"bedrooms\": 3,\n    \"beds\": 3,\n    \"bathrooms\": 2\n  },\n  \"amenities\": [\"wifi\", \"parking\", \"kitchen\", \"lake_view\", \"garden\"],\n  \"houseRules\": [\n    \"Check-in: 2 PM\",\n    \"Check-out: 11 AM\",\n    \"No smoking\"\n  ],\n  \"images\": [\n    \"https://images.unsplash.com/photo-1542314831-068cd1dbfeeb\"\n  ]\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/homestays",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["homestays"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Homestay",
+                    "request": {
+                        "method": "PUT",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Patratu Lake View Villa - Updated\",\n  \"pricing\": {\n    \"basePrice\": 3800,\n    \"cleaningFee\": 400,\n    \"weekendPrice\": 4200\n  },\n  \"amenities\": [\"wifi\", \"parking\", \"kitchen\", \"lake_view\", \"garden\", \"bbq\"]\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/homestays/{{testHomestayId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["homestays", "{{testHomestayId}}"]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Homestay",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/homestays/{{testHomestayId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["homestays", "{{testHomestayId}}"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Guides",
+            "item": [
+                {
+                    "name": "Get All Guides",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/guides?page=1&limit=10",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["guides"],
+                            "query": [
+                                { "key": "page", "value": "1" },
+                                { "key": "limit", "value": "10" },
+                                { "key": "specialization", "value": "wildlife", "disabled": true }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Guide by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/guides/{{testGuideId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["guides", "{{testGuideId}}"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Guide",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.environment.set('testGuideId', jsonData.data._id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Lakshmi Munda\",\n  \"bio\": \"Local Munda tribe member specializing in heritage tours\",\n  \"specializations\": [\"tribal_culture\", \"handicrafts\", \"heritage_tours\"],\n  \"languages\": [\"Hindi\", \"Mundari\", \"Sadri\"],\n  \"experience\": \"8 years\",\n  \"location\": {\n    \"district\": \"Khunti\",\n    \"state\": \"Jharkhand\"\n  },\n  \"pricing\": {\n    \"halfDay\": 1200,\n    \"fullDay\": 2000,\n    \"workshop\": 1800\n  },\n  \"certifications\": [\"Heritage Guide License\"],\n  \"availability\": \"available\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/guides",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["guides"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Guide",
+                    "request": {
+                        "method": "PUT",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"bio\": \"Certified wildlife guide with 13 years experience - updated\",\n  \"pricing\": {\n    \"halfDay\": 1600,\n    \"fullDay\": 2700,\n    \"multiDay\": 2200\n  },\n  \"availability\": \"busy\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/guides/{{testGuideId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["guides", "{{testGuideId}}"]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Guide",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/guides/{{testGuideId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["guides", "{{testGuideId}}"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Products",
+            "item": [
+                {
+                    "name": "Get All Products",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/products?page=1&limit=12",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["products"],
+                            "query": [
+                                { "key": "page", "value": "1" },
+                                { "key": "limit", "value": "12" },
+                                { "key": "category", "value": "handicrafts", "disabled": true }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Product by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/{{testProductId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["products", "{{testProductId}}"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Product",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.environment.set('testProductId', jsonData.data._id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Dokra Brass Elephant Figurine\",\n  \"description\": \"Antique finish brass elephant crafted using traditional Dokra technique\",\n  \"category\": \"handicrafts\",\n  \"subcategory\": \"metalwork\",\n  \"price\": {\n    \"amount\": 2400\n  },\n  \"stock\": 5,\n  \"images\": [\n    \"https://images.unsplash.com/photo-1610701596007-11502861dcfa\"\n  ],\n  \"specifications\": {\n    \"material\": \"Brass (Lost-wax casting)\",\n    \"dimensions\": \"12cm x 8cm x 15cm\",\n    \"weight\": \"450g\"\n  }\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/products",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["products"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Product",
+                    "request": {
+                        "method": "PUT",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"price\": {\n    \"amount\": 1750,\n    \"originalAmount\": 2200,\n    \"discount\": 20\n  },\n  \"stock\": 8\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/products/{{testProductId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["products", "{{testProductId}}"]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Product",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/{{testProductId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["products", "{{testProductId}}"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Bookings",
+            "item": [
+                {
+                    "name": "Get All Bookings",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/bookings?page=1&limit=10",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["bookings"],
+                            "query": [
+                                { "key": "page", "value": "1" },
+                                { "key": "limit", "value": "10" },
+                                { "key": "status", "value": "confirmed", "disabled": true }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Booking by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/bookings/{{testBookingId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["bookings", "{{testBookingId}}"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Booking",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.environment.set('testBookingId', jsonData.data._id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"listingType\": \"homestay\",\n  \"listingId\": \"{{testHomestayId}}\",\n  \"checkIn\": \"2025-12-28\",\n  \"checkOut\": \"2025-12-30\",\n  \"guests\": {\n    \"adults\": 2,\n    \"children\": 1\n  },\n  \"guestDetails\": {\n    \"name\": \"Amit Kumar\",\n    \"email\": \"amit.kumar@example.com\",\n    \"phone\": \"+91-9876543210\"\n  },\n  \"specialRequests\": \"Early check-in if possible\",\n  \"pricing\": {\n    \"basePrice\": 5000,\n    \"cleaningFee\": 300,\n    \"serviceFee\": 530,\n    \"taxes\": 795,\n    \"total\": 6625\n  }\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/bookings",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["bookings"]
+                        }
+                    }
+                },
+                {
+                    "name": "Cancel Booking",
+                    "request": {
+                        "method": "PUT",
+                        "header": [{ "key": "Content-Type", "value": "application/json" }],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"reason\": \"Change of plans\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/bookings/{{testBookingId}}/cancel",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["bookings", "{{testBookingId}}", "cancel"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Search",
+            "item": [
+                {
+                    "name": "Unified Search",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/search?q=waterfall&type=all&page=1&limit=10",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["search"],
+                            "query": [
+                                { "key": "q", "value": "waterfall" },
+                                { "key": "type", "value": "all" },
+                                { "key": "page", "value": "1" },
+                                { "key": "limit", "value": "10" }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Search Autocomplete",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/search/autocomplete?q=net",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["search", "autocomplete"],
+                            "query": [{ "key": "q", "value": "net" }]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:2201/api/v1"
+        }
+    ]
+}
