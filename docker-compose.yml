@@ -1,19 +1,20 @@
-version: '3.8'
-
 services:
     mongodb:
         image: mongodb/mongodb-community-server
         container_name: jharkhand-tourism-mongodb
         restart: unless-stopped
         environment:
-            MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:-admin}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-password123}
-            MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-sih-2025-jharkhand-tourism}
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+            MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+            MONGO_DATABASE: ${MONGO_DATABASE}
+            MONGO_APP_USER: ${MONGO_APP_USER}
+            MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD}
         ports:
             - "${MONGO_PORT:-27017}:27017"
         volumes:
             - mongodb_data:/data/db
-            - ./docker/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+            - ./docker/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
         networks:
             - backend-network
         healthcheck:
@@ -22,6 +23,34 @@ services:
             timeout: 5s
             retries: 5
             start_period: 30s
+
+    backend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: jharkhand-tourism-backend
+        restart: unless-stopped
+        ports:
+            - "${PORT:-2201}:${PORT:-2201}"
+        environment:
+            NODE_ENV: ${NODE_ENV:-production}
+            PORT: ${PORT:-2201}
+            TZ: ${TZ:-Asia/Kolkata}
+            MONGO_URI: mongodb://${MONGO_APP_USER}:${MONGO_APP_PASSWORD}@mongodb:27017/${MONGO_DATABASE}?authSource=${MONGO_DATABASE}
+            JWT_SECRET: ${JWT_SECRET}
+            JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+            BCRYPT_SALT_ROUNDS: ${BCRYPT_SALT_ROUNDS:-12}
+        depends_on:
+            mongodb:
+                condition: service_healthy
+        networks:
+            - backend-network
+        healthcheck:
+            test: [ "CMD", "wget", "-q", "--spider", "http://localhost:${PORT:-2201}/api/v1/health" ]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 40s
 
 volumes:
     mongodb_data:
